@@ -25,10 +25,8 @@ def teste_google(setup):
     driver.get('https://www.google.com/')
     # Localizar o campo de pesquisa, definido como 'q' no caso do Google
     campo_pesquisa = driver.find_element_by_name('q')
-    # Definindo uma pesquisa
-    pesquisa = "Música"
     # Envia a pesquisa para o campo de pesquisa
-    campo_pesquisa.send_keys(pesquisa)
+    campo_pesquisa.send_keys("Música")
     # Submete o formulário de pesquisa
     campo_pesquisa.submit()
 
@@ -38,4 +36,4 @@ def teste_google(setup):
     site_escolhido.click()
 
     # Garante que o acesso ao site foi feito com sucesso
-    assert "YouTube" in driver.title, "Falha ao acessar o site"
+    assert "YouTube" in driver.title, "Falha ao acessar o site escolhido"
