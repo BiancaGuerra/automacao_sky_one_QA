@@ -1,30 +1,41 @@
+"""
+Automação de teste: nesse caso, a pesquisa seria "Música" e o site escolhido "YouTube"
+Se o site abrir corretamente, o teste deu certo, se não, a frase "Falha ao acessar o site" será exibida
+"""
+
+# Importar funções externas
 import pytest
 from selenium import webdriver
 
+# Inicializar o PyTest
 @pytest.fixture(scope="module")
+
 def setup():
-    # Inicializar o driver do Selenium (ajuste o caminho para o local do driver em seu sistema)
-    driver = webdriver.Chrome('/caminho/para/o/chromedriver')
+    # Inicializar o driver do Selenium, utilizando o caminho do chromedriver.exe
+    driver = webdriver.Chrome(r'C:\Users\bibir\Downloads\chromedriver_win32.zip')
+    # Pausar a execução e retornar o valor indicado
     yield driver
     # Fechar o navegador após o teste
     driver.quit()
 
-def test_google_search(setup):
+def teste_google(setup):
+    # Obter o driver a partir da função 'setup' acima 
     driver = setup
-
-    # 1. Acessar o site https://www.google.com/
+    # Acessar o site
     driver.get('https://www.google.com/')
-
-    # 2. Fazer uma pesquisa de algo que você gosta
+    # Localizar o campo de pesquisa, definido como 'q' no caso do Google
     campo_pesquisa = driver.find_element_by_name('q')
-    pesquisa = "Automação de testes"
+    # Definindo uma pesquisa
+    pesquisa = "Música"
+    # Envia a pesquisa para o campo de pesquisa
     campo_pesquisa.send_keys(pesquisa)
+    # Submete o formulário de pesquisa
     campo_pesquisa.submit()
 
-    # 3. Clicar no site escolhido
-    link_resultado = driver.find_element_by_css_selector('#search .g:first-child a')
-    link_resultado.click()
+    # Atribui um link, dentro dos que apareceram, em uma variável
+    site_escolhido = driver.find_element_by_css_selector('div#search div.g a')
+    # Clica nessa variável
+    site_escolhido.click()
 
-    # 4. Garantir que o acesso ao site foi feito com sucesso
-    titulo_pagina = driver.title
-    assert "Nome do Site" in titulo_pagina, "Falha ao acessar o site"
+    # Garante que o acesso ao site foi feito com sucesso
+    assert "YouTube" in driver.title, "Falha ao acessar o site"
